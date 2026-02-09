@@ -85,6 +85,11 @@ app.get('/api/all', (req, res) => {
   const whalesData = readJSONFile('whales.json');
   const tradersData = readJSONFile('traders.json');
 
+  // Check if any data failed to load
+  if (!senateData || !cryptoData || !whalesData || !tradersData) {
+    return res.status(500).json({ error: 'Failed to load one or more data sources' });
+  }
+
   res.json({
     senate: senateData,
     crypto: cryptoData,
